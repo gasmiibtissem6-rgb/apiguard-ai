@@ -1,0 +1,918 @@
+{
+  "target": "http://localhost:8888",
+  "timestamp": "2026-06-04 01:26:34",
+  "analysis": {
+    "global_risk_score": 4.0,
+    "risk_level": "MOYEN",
+    "attack_chains": [],
+    "executive_summary": "Voici un résumé exécutif en deux phrases :\n\nNotre analyse a mis en évidence des vulnérabilités critiques liées à l'absence de limitation de taux d'accès sur plusieurs endpoints sensibles, notamment /api/login, /api/auth, /api/token, /api/reset et /login. Il est essentiel de prendre immédiatement des mesures pour corriger ces vulnérabilités et garantir la sécurité de votre API.\n\n(Note : j'ai traduit le texte original en français)",
+    "prioritized_remediations": [
+      "Ajouter rate limiting (ex: 5 req/min) sur endpoints sensibles"
+    ],
+    "attack_surface": 86
+  },
+  "vulnerabilities": [
+    {
+      "endpoint": "/api/login",
+      "type": "NO RATE LIMITING",
+      "severity": "MOYEN",
+      "description": "Aucune limitation du nombre de requêtes — brute force possible",
+      "evidence": "10 requêtes envoyées sans blocage: {404}",
+      "poc": "for i in $(seq 1 100); do curl -X POST http://localhost:8888/api/login -d '{\"password\":\"test$i\"}'; done"
+    },
+    {
+      "endpoint": "/api/auth",
+      "type": "NO RATE LIMITING",
+      "severity": "MOYEN",
+      "description": "Aucune limitation du nombre de requêtes — brute force possible",
+      "evidence": "10 requêtes envoyées sans blocage: {404}",
+      "poc": "for i in $(seq 1 100); do curl -X POST http://localhost:8888/api/auth -d '{\"password\":\"test$i\"}'; done"
+    },
+    {
+      "endpoint": "/api/token",
+      "type": "NO RATE LIMITING",
+      "severity": "MOYEN",
+      "description": "Aucune limitation du nombre de requêtes — brute force possible",
+      "evidence": "10 requêtes envoyées sans blocage: {404}",
+      "poc": "for i in $(seq 1 100); do curl -X POST http://localhost:8888/api/token -d '{\"password\":\"test$i\"}'; done"
+    },
+    {
+      "endpoint": "/api/reset",
+      "type": "NO RATE LIMITING",
+      "severity": "MOYEN",
+      "description": "Aucune limitation du nombre de requêtes — brute force possible",
+      "evidence": "10 requêtes envoyées sans blocage: {404}",
+      "poc": "for i in $(seq 1 100); do curl -X POST http://localhost:8888/api/reset -d '{\"password\":\"test$i\"}'; done"
+    },
+    {
+      "endpoint": "/login",
+      "type": "NO RATE LIMITING",
+      "severity": "MOYEN",
+      "description": "Aucune limitation du nombre de requêtes — brute force possible",
+      "evidence": "10 requêtes envoyées sans blocage: {404}",
+      "poc": "for i in $(seq 1 100); do curl -X POST http://localhost:8888/login -d '{\"password\":\"test$i\"}'; done"
+    }
+  ],
+  "endpoints": [
+    {
+      "url": "http://localhost:8888/users",
+      "endpoint": "/users",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/posts",
+      "endpoint": "/posts",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/comments",
+      "endpoint": "/comments",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/albums",
+      "endpoint": "/albums",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/todos",
+      "endpoint": "/todos",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/photos",
+      "endpoint": "/photos",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api",
+      "endpoint": "/api",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/v1",
+      "endpoint": "/api/v1",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/v2",
+      "endpoint": "/api/v2",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/v3",
+      "endpoint": "/api/v3",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/users",
+      "endpoint": "/api/users",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/user",
+      "endpoint": "/api/user",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/admin",
+      "endpoint": "/api/admin",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/login",
+      "endpoint": "/api/login",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/logout",
+      "endpoint": "/api/logout",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/register",
+      "endpoint": "/api/register",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/auth",
+      "endpoint": "/api/auth",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/token",
+      "endpoint": "/api/token",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/refresh",
+      "endpoint": "/api/refresh",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/profile",
+      "endpoint": "/api/profile",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/me",
+      "endpoint": "/api/me",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/account",
+      "endpoint": "/api/account",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/accounts",
+      "endpoint": "/api/accounts",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/password",
+      "endpoint": "/api/password",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/reset",
+      "endpoint": "/api/reset",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/verify",
+      "endpoint": "/api/verify",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/search",
+      "endpoint": "/api/search",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/upload",
+      "endpoint": "/api/upload",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/download",
+      "endpoint": "/api/download",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/files",
+      "endpoint": "/api/files",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/file",
+      "endpoint": "/api/file",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/docs",
+      "endpoint": "/api/docs",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/swagger",
+      "endpoint": "/api/swagger",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/openapi",
+      "endpoint": "/api/openapi",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/graphql",
+      "endpoint": "/api/graphql",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/health",
+      "endpoint": "/api/health",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/status",
+      "endpoint": "/api/status",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/config",
+      "endpoint": "/api/config",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/settings",
+      "endpoint": "/api/settings",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/debug",
+      "endpoint": "/api/debug",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/test",
+      "endpoint": "/api/test",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/backup",
+      "endpoint": "/api/backup",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/export",
+      "endpoint": "/api/export",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/import",
+      "endpoint": "/api/import",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/logs",
+      "endpoint": "/api/logs",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/metrics",
+      "endpoint": "/api/metrics",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/stats",
+      "endpoint": "/api/stats",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/report",
+      "endpoint": "/api/report",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/reports",
+      "endpoint": "/api/reports",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/invoice",
+      "endpoint": "/api/invoice",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/payment",
+      "endpoint": "/api/payment",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/payments",
+      "endpoint": "/api/payments",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/orders",
+      "endpoint": "/api/orders",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/order",
+      "endpoint": "/api/order",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/products",
+      "endpoint": "/api/products",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/product",
+      "endpoint": "/api/product",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/cart",
+      "endpoint": "/api/cart",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/checkout",
+      "endpoint": "/api/checkout",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/customers",
+      "endpoint": "/api/customers",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/customer",
+      "endpoint": "/api/customer",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/employees",
+      "endpoint": "/api/employees",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/employee",
+      "endpoint": "/api/employee",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/roles",
+      "endpoint": "/api/roles",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/role",
+      "endpoint": "/api/role",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/permissions",
+      "endpoint": "/api/permissions",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/groups",
+      "endpoint": "/api/groups",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/api/group",
+      "endpoint": "/api/group",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/swagger.json",
+      "endpoint": "/swagger.json",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/swagger.yaml",
+      "endpoint": "/swagger.yaml",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/openapi.json",
+      "endpoint": "/openapi.json",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/openapi.yaml",
+      "endpoint": "/openapi.yaml",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/.well-known",
+      "endpoint": "/.well-known",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/graphql",
+      "endpoint": "/graphql",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/playground",
+      "endpoint": "/playground",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/v1/users",
+      "endpoint": "/v1/users",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/v1/posts",
+      "endpoint": "/v1/posts",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/v1/admin",
+      "endpoint": "/v1/admin",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/v2/users",
+      "endpoint": "/v2/users",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/v2/posts",
+      "endpoint": "/v2/posts",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/health",
+      "endpoint": "/health",
+      "status": 200,
+      "size": 2,
+      "content_type": "application/octet-stream, text/plain",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "OK"
+    },
+    {
+      "url": "http://localhost:8888/status",
+      "endpoint": "/status",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/admin",
+      "endpoint": "/admin",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/login",
+      "endpoint": "/login",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/register",
+      "endpoint": "/register",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/profile",
+      "endpoint": "/profile",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    },
+    {
+      "url": "http://localhost:8888/search",
+      "endpoint": "/search",
+      "status": 404,
+      "size": 159,
+      "content_type": "text/html",
+      "server": "openresty/1.27.1.2",
+      "is_json": false,
+      "response": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n"
+    }
+  ]
+}

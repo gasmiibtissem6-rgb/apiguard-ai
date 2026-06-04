@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>APIGuard AI — Rapport https://jsonplaceholder.typicode.com</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; }
+  .header { background: linear-gradient(135deg, #161b22, #21262d); border: 1px solid #30363d; border-radius: 12px; padding: 30px; margin-bottom: 20px; }
+  h1 { color: #58a6ff; margin: 0 0 8px 0; }
+  .score { font-size: 48px; font-weight: bold; color: #44bb44; }
+  .badge { background: #44bb44; color: #000; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #21262d; padding: 10px; text-align: left; color: #8b949e; }
+  td { padding: 10px; border-bottom: 1px solid #21262d; font-size: 13px; }
+  code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #79c0ff; }
+  .chain { background: #0d1117; border-left: 3px solid #58a6ff; padding: 12px; margin: 8px 0; border-radius: 4px; }
+  h2 { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+  h4 { margin: 0 0 8px 0; color: #e3b341; }
+  ul, ol { padding-left: 20px; }
+  li { margin: 6px 0; }
+  .summary { background: #1c2128; border: 1px solid #388bfd; border-radius: 8px; padding: 16px; color: #e6edf3; }
+  .meta { color: #8b949e; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🛡️ APIGuard AI — Rapport de Sécurité</h1>
+  <p class="meta">Cible: <strong>https://jsonplaceholder.typicode.com</strong> | Date: 2026-06-04 00:29:57</p>
+  <div>Score de risque global: <span class="score">2.3</span><span style="font-size:20px;color:#8b949e">/10</span>
+  &nbsp;<span class="badge">BAS</span></div>
+</div>
+
+<div class="card">
+  <h2>📋 Résumé Exécutif</h2>
+  <div class="summary">Résumé exécutif :
+
+Le score de sécurité de l'API https://jsonplaceholder.typicode.com est insatisfaisant avec une note de 2,3/10. Deux vulnérabilités importantes ont été identifiées : la MASS ASSIGNMENT sur l'endpoint /users et l'exposition de données sensibles également sur l'endpoint /users.
+
+Ces vulnérabilités peuvent entraîner des conséquences graves pour les utilisateurs, comme la perte de confidentialité ou la modification non autorisée de données. Il est donc essentiel de prendre des mesures rapides pour corriger ces problèmes et améliorer la sécurité globale de l'API.</div>
+  <br>
+  <table>
+    <tr><th>Endpoints analysés</th><th>Vulnérabilités</th><th>Critiques</th><th>Hautes</th><th>Moyennes</th></tr>
+    <tr>
+      <td>6</td>
+      <td>2</td>
+      <td style="color:#ff4444">0</td>
+      <td style="color:#ff8800">2</td>
+      <td style="color:#ffcc00">0</td>
+    </tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>🔗 Chaînes d'Attaque Prédites</h2>
+  <div class='chain'><h4>🔗 Prise de contrôle de compte <span class='badge'>HAUT</span></h4><ol><li>1. Mass assignment sur /users</li><li>2. Élévation du rôle vers admin</li><li>3. Accès total à l'application</li></ol></div>
+</div>
+
+<div class="card">
+  <h2>🐛 Vulnérabilités Détectées</h2>
+  <table>
+    <tr><th>Endpoint</th><th>Type</th><th>Sévérité</th><th>Description</th><th>PoC</th></tr>
+    
+            <tr>
+                <td><code>/users</code></td>
+                <td style="color:#ff8800;font-weight:bold">MASS ASSIGNMENT</td>
+                <td style="color:#ff8800">HAUT</td>
+                <td>Possibilité d'assigner des champs sensibles (role, admin)</td>
+                <td><code>curl -X POST https://jsonplaceholder.typicode.com/users -d '{"role": "admin", "is_admin": true}'</code></td>
+            </tr>
+            <tr>
+                <td><code>/users</code></td>
+                <td style="color:#ff8800;font-weight:bold">SENSITIVE DATA EXPOSURE</td>
+                <td style="color:#ff8800">HAUT</td>
+                <td>Données sensibles exposées dans la réponse: ['ssn']</td>
+                <td><code>curl https://jsonplaceholder.typicode.com/users</code></td>
+            </tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>✅ Remédiations Prioritaires</h2>
+  <ul><li>✅ Masquer les champs sensibles dans les réponses API</li><li>✅ Utiliser des DTOs stricts, whitelister les champs acceptés</li></ul>
+</div>
+
+<div class="card">
+  <h2>🔍 Endpoints Découverts</h2>
+  <table>
+    <tr><th>URL</th><th>Status</th><th>Type</th></tr>
+    <tr><td><code>https://jsonplaceholder.typicode.com/users</code></td><td>200</td><td>application/json; charset=utf-8</td></tr><tr><td><code>https://jsonplaceholder.typicode.com/posts</code></td><td>200</td><td>application/json; charset=utf-8</td></tr><tr><td><code>https://jsonplaceholder.typicode.com/comments</code></td><td>200</td><td>application/json; charset=utf-8</td></tr><tr><td><code>https://jsonplaceholder.typicode.com/albums</code></td><td>200</td><td>application/json; charset=utf-8</td></tr><tr><td><code>https://jsonplaceholder.typicode.com/todos</code></td><td>200</td><td>application/json; charset=utf-8</td></tr><tr><td><code>https://jsonplaceholder.typicode.com/photos</code></td><td>200</td><td>application/json; charset=utf-8</td></tr>
+  </table>
+</div>
+
+<p class="meta" style="text-align:center;margin-top:30px">Généré par APIGuard AI | 2026-06-04 00:29:57</p>
+</body>
+</html>

@@ -1,0 +1,927 @@
+{
+  "target": "https://reqres.in",
+  "timestamp": "2026-06-04 00:53:11",
+  "analysis": {
+    "global_risk_score": 4.5,
+    "risk_level": "MOYEN",
+    "attack_chains": [],
+    "executive_summary": "Voici un résumé exécutif de 2 phrases pour le management :\n\n\"La sécurité de l'API de reqres.in présente des vulnérabilités importantes, notamment l'absence de limitation de taux d'accès sur cinq endpoints sensibles (/api/login, /api/auth, /api/token, /api/reset) qui peuvent être exploitées par des attaquants. De plus, la documentation openapi.json contient des informations sensibles qui pourraient être utilisées à des fins malveillantes.\"\n\nNote : La note de 4,5/10 indique un niveau moyen de vulnérabilité, mais l'absence de rate limiting sur ces endpoints sensibles est particulièrement préoccupante.",
+    "prioritized_remediations": [
+      "Ajouter rate limiting (ex: 5 req/min) sur endpoints sensibles",
+      "Masquer les champs sensibles dans les réponses API"
+    ],
+    "attack_surface": 86
+  },
+  "vulnerabilities": [
+    {
+      "endpoint": "/api/login",
+      "type": "NO RATE LIMITING",
+      "severity": "MOYEN",
+      "description": "Aucune limitation du nombre de requêtes — brute force possible",
+      "evidence": "10 requêtes envoyées sans blocage: {401}",
+      "poc": "for i in $(seq 1 100); do curl -X POST https://reqres.in/api/login -d '{\"password\":\"test$i\"}'; done"
+    },
+    {
+      "endpoint": "/api/auth",
+      "type": "NO RATE LIMITING",
+      "severity": "MOYEN",
+      "description": "Aucune limitation du nombre de requêtes — brute force possible",
+      "evidence": "10 requêtes envoyées sans blocage: {401}",
+      "poc": "for i in $(seq 1 100); do curl -X POST https://reqres.in/api/auth -d '{\"password\":\"test$i\"}'; done"
+    },
+    {
+      "endpoint": "/api/token",
+      "type": "NO RATE LIMITING",
+      "severity": "MOYEN",
+      "description": "Aucune limitation du nombre de requêtes — brute force possible",
+      "evidence": "10 requêtes envoyées sans blocage: {401}",
+      "poc": "for i in $(seq 1 100); do curl -X POST https://reqres.in/api/token -d '{\"password\":\"test$i\"}'; done"
+    },
+    {
+      "endpoint": "/api/reset",
+      "type": "NO RATE LIMITING",
+      "severity": "MOYEN",
+      "description": "Aucune limitation du nombre de requêtes — brute force possible",
+      "evidence": "10 requêtes envoyées sans blocage: {401}",
+      "poc": "for i in $(seq 1 100); do curl -X POST https://reqres.in/api/reset -d '{\"password\":\"test$i\"}'; done"
+    },
+    {
+      "endpoint": "/openapi.json",
+      "type": "SENSITIVE DATA EXPOSURE",
+      "severity": "HAUT",
+      "description": "Données sensibles exposées dans la réponse: ['password', 'token', 'apikey']",
+      "evidence": "Champs trouvés: ['password', 'token', 'apikey']",
+      "poc": "curl https://reqres.in/openapi.json"
+    },
+    {
+      "endpoint": "/login",
+      "type": "NO RATE LIMITING",
+      "severity": "MOYEN",
+      "description": "Aucune limitation du nombre de requêtes — brute force possible",
+      "evidence": "10 requêtes envoyées sans blocage: {301}",
+      "poc": "for i in $(seq 1 100); do curl -X POST https://reqres.in/login -d '{\"password\":\"test$i\"}'; done"
+    }
+  ],
+  "endpoints": [
+    {
+      "url": "https://reqres.in/users",
+      "endpoint": "/users",
+      "status": 404,
+      "size": 230,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /users does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/posts",
+      "endpoint": "/posts",
+      "status": 404,
+      "size": 230,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /posts does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/comments",
+      "endpoint": "/comments",
+      "status": 404,
+      "size": 233,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /comments does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/albums",
+      "endpoint": "/albums",
+      "status": 404,
+      "size": 231,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /albums does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/todos",
+      "endpoint": "/todos",
+      "status": 404,
+      "size": 230,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /todos does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/photos",
+      "endpoint": "/photos",
+      "status": 404,
+      "size": 231,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /photos does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/api",
+      "endpoint": "/api",
+      "status": 200,
+      "size": 326,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"name\":\"ReqRes API\",\"version\":\"1.0.0\",\"description\":\"Backend platform for frontend developers, testers, and teams\",\"documentation\":\"/docs\",\"endpoints\":{\"free\":\"/api/users\",\"pro\":\"/custom-endpoints\",\"health\":\"/health\"},\"features\":[\"Fake data generation\",\"Custom endpoints (Pro)\",\"Clerk authentication\",\"Stripe subscriptions\"]}"
+    },
+    {
+      "url": "https://reqres.in/api/v1",
+      "endpoint": "/api/v1",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/v2",
+      "endpoint": "/api/v2",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/v3",
+      "endpoint": "/api/v3",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/users",
+      "endpoint": "/api/users",
+      "status": 401,
+      "size": 854,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Create a free key at app.reqres.in and send it as x-api-key.\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqres.in/api/collections\",\"_meta\":{\"powered_b"
+    },
+    {
+      "url": "https://reqres.in/api/user",
+      "endpoint": "/api/user",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/admin",
+      "endpoint": "/api/admin",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/login",
+      "endpoint": "/api/login",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/logout",
+      "endpoint": "/api/logout",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/register",
+      "endpoint": "/api/register",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/auth",
+      "endpoint": "/api/auth",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/token",
+      "endpoint": "/api/token",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/refresh",
+      "endpoint": "/api/refresh",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/profile",
+      "endpoint": "/api/profile",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/me",
+      "endpoint": "/api/me",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/account",
+      "endpoint": "/api/account",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/accounts",
+      "endpoint": "/api/accounts",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/password",
+      "endpoint": "/api/password",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/reset",
+      "endpoint": "/api/reset",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/verify",
+      "endpoint": "/api/verify",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/search",
+      "endpoint": "/api/search",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/upload",
+      "endpoint": "/api/upload",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/download",
+      "endpoint": "/api/download",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/files",
+      "endpoint": "/api/files",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/file",
+      "endpoint": "/api/file",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/docs",
+      "endpoint": "/api/docs",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/swagger",
+      "endpoint": "/api/swagger",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/openapi",
+      "endpoint": "/api/openapi",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/graphql",
+      "endpoint": "/api/graphql",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/health",
+      "endpoint": "/api/health",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/status",
+      "endpoint": "/api/status",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/config",
+      "endpoint": "/api/config",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/settings",
+      "endpoint": "/api/settings",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/debug",
+      "endpoint": "/api/debug",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/test",
+      "endpoint": "/api/test",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/backup",
+      "endpoint": "/api/backup",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/export",
+      "endpoint": "/api/export",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/import",
+      "endpoint": "/api/import",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/logs",
+      "endpoint": "/api/logs",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/metrics",
+      "endpoint": "/api/metrics",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/stats",
+      "endpoint": "/api/stats",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/report",
+      "endpoint": "/api/report",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/reports",
+      "endpoint": "/api/reports",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/invoice",
+      "endpoint": "/api/invoice",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/payment",
+      "endpoint": "/api/payment",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/payments",
+      "endpoint": "/api/payments",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/orders",
+      "endpoint": "/api/orders",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/order",
+      "endpoint": "/api/order",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/products",
+      "endpoint": "/api/products",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/product",
+      "endpoint": "/api/product",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/cart",
+      "endpoint": "/api/cart",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/checkout",
+      "endpoint": "/api/checkout",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/customers",
+      "endpoint": "/api/customers",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/customer",
+      "endpoint": "/api/customer",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/employees",
+      "endpoint": "/api/employees",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/employee",
+      "endpoint": "/api/employee",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/roles",
+      "endpoint": "/api/roles",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/role",
+      "endpoint": "/api/role",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/permissions",
+      "endpoint": "/api/permissions",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/groups",
+      "endpoint": "/api/groups",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/api/group",
+      "endpoint": "/api/group",
+      "status": 401,
+      "size": 895,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_api_key\",\"message\":\"The x-api-key header is required for this endpoint.\",\"hint\":\"Send x-api-key for admin calls (/api/*) or Authorization: Bearer <token> for app-user calls (/app/*).\",\"next_steps\":[\"Go to app.reqres.in/api-keys to get your key\",\"Add header: x-api-key: <your_key>\",\"For app user endpoints, use Authorization: Bearer <session_token> instead\"],\"docs_url\":\"https://app.reqres.in/docs#authentication\",\"example_curl\":\"curl -H \\\"x-api-key: YOUR_API_KEY\\\" https://api.reqre"
+    },
+    {
+      "url": "https://reqres.in/swagger.json",
+      "endpoint": "/swagger.json",
+      "status": 404,
+      "size": 237,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /swagger.json does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/swagger.yaml",
+      "endpoint": "/swagger.yaml",
+      "status": 404,
+      "size": 237,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /swagger.yaml does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/openapi.json",
+      "endpoint": "/openapi.json",
+      "status": 200,
+      "size": 50807,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"openapi\":\"3.0.3\",\"info\":{\"title\":\"ReqRes API\",\"description\":\"OpenAPI specification for the ReqRes API. Covers legacy demo endpoints, collections, app-user auth flows, custom endpoints, and the Agent Sandbox (/agent/v1/*) for AI coding agents. All /api/* endpoints require x-api-key. All /app/* endpoints require Authorization: Bearer <session_token>. /agent/v1/* endpoints are open in v1 (IP-based rate limiting).\",\"version\":\"2.1.0\",\"contact\":{\"name\":\"ReqRes Support\",\"url\":\"https://reqres.in\",\"ema"
+    },
+    {
+      "url": "https://reqres.in/openapi.yaml",
+      "endpoint": "/openapi.yaml",
+      "status": 404,
+      "size": 237,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /openapi.yaml does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/.well-known",
+      "endpoint": "/.well-known",
+      "status": 404,
+      "size": 236,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /.well-known does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/graphql",
+      "endpoint": "/graphql",
+      "status": 404,
+      "size": 232,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /graphql does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/playground",
+      "endpoint": "/playground",
+      "status": 404,
+      "size": 235,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /playground does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/v1/users",
+      "endpoint": "/v1/users",
+      "status": 404,
+      "size": 233,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /v1/users does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/v1/posts",
+      "endpoint": "/v1/posts",
+      "status": 404,
+      "size": 233,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /v1/posts does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/v1/admin",
+      "endpoint": "/v1/admin",
+      "status": 404,
+      "size": 233,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /v1/admin does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/v2/users",
+      "endpoint": "/v2/users",
+      "status": 404,
+      "size": 233,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /v2/users does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/v2/posts",
+      "endpoint": "/v2/posts",
+      "status": 404,
+      "size": 233,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /v2/posts does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/health",
+      "endpoint": "/health",
+      "status": 200,
+      "size": 104,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"status\":\"healthy\",\"timestamp\":\"2026-06-03T22:45:39.784Z\",\"version\":\"1.0.0\",\"environment\":\"production\"}"
+    },
+    {
+      "url": "https://reqres.in/status",
+      "endpoint": "/status",
+      "status": 404,
+      "size": 231,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /status does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/admin",
+      "endpoint": "/admin",
+      "status": 401,
+      "size": 430,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"missing_authorization\",\"message\":\"Dashboard-only endpoint: it expects Authorization: Bearer <Clerk session> sent by the ReqRes app.\",\"hint\":\"If you are automating, use x-api-key + /api/collections or app-session tokens (/api/app-users/login). Dashboard routes need the browser session token.\",\"docs_url\":\"https://reqres.in/documentation\",\"example\":\"curl -H \\\"x-api-key: <manage_key>\\\" https://reqres.in/api/collections\"}"
+    },
+    {
+      "url": "https://reqres.in/login",
+      "endpoint": "/login",
+      "status": 200,
+      "size": 4396,
+      "content_type": "text/html",
+      "server": "cloudflare",
+      "is_json": false,
+      "response": "<!doctype html>\n<html lang=\"en\" translate=\"no\" class=\"notranslate\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/png\" href=\"/logo-dark.jpg\" alt=\"ReqRes Logo\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <meta name=\"google\" content=\"notranslate\" />\n    <title>ReqRes</title>\n    <meta name=\"description\" content=\"Build and test REST APIs. Collections, auth, logs, and a database from a single URL.\" />\n    <!-- SEO & Social -->\n    <lin"
+    },
+    {
+      "url": "https://reqres.in/register",
+      "endpoint": "/register",
+      "status": 200,
+      "size": 4396,
+      "content_type": "text/html",
+      "server": "cloudflare",
+      "is_json": false,
+      "response": "<!doctype html>\n<html lang=\"en\" translate=\"no\" class=\"notranslate\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/png\" href=\"/logo-dark.jpg\" alt=\"ReqRes Logo\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <meta name=\"google\" content=\"notranslate\" />\n    <title>ReqRes</title>\n    <meta name=\"description\" content=\"Build and test REST APIs. Collections, auth, logs, and a database from a single URL.\" />\n    <!-- SEO & Social -->\n    <lin"
+    },
+    {
+      "url": "https://reqres.in/profile",
+      "endpoint": "/profile",
+      "status": 404,
+      "size": 232,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /profile does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    },
+    {
+      "url": "https://reqres.in/search",
+      "endpoint": "/search",
+      "status": 404,
+      "size": 231,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "{\"error\":\"endpoint_not_found\",\"message\":\"The endpoint GET /search does not exist.\",\"hint\":\"API endpoints start with /api/ (admin) or /app/ (app user). Check the docs for the full reference.\",\"docs_url\":\"https://app.reqres.in/docs\"}"
+    }
+  ]
+}

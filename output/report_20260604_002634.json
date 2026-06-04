@@ -1,0 +1,36 @@
+{
+  "target": "https://jsonplaceholder.typicode.com",
+  "timestamp": "2026-06-04 00:26:34",
+  "analysis": {
+    "global_risk_score": 7.0,
+    "risk_level": "HAUT",
+    "attack_chains": [],
+    "executive_summary": "Voici un résumé exécutif en deux phrases pour le management :\n\n\"La sécurité de l'API expertise https://jsonplaceholder.typicode.com obtient une note de 7,0/10, avec une vulnérabilité importante liée à la mise en exposition de données sensibles sur le chemin racine (/). Il est donc recommandé d'intensifier les efforts pour protéger ces informations confidentielles et améliorer la sécurité globale de l'API.\"\n\n(Note : Le score 7,0/10 indique que l'API présente des vulnérabilités importantes, mais également des points forts en termes de sécurité.)",
+    "prioritized_remediations": [
+      "Masquer les champs sensibles dans les réponses API"
+    ],
+    "attack_surface": 1
+  },
+  "vulnerabilities": [
+    {
+      "endpoint": "/",
+      "type": "SENSITIVE DATA EXPOSURE",
+      "severity": "HAUT",
+      "description": "Données sensibles exposées dans la réponse: ['ssn']",
+      "evidence": "Champs trouvés: ['ssn']",
+      "poc": "curl https://jsonplaceholder.typicode.com/"
+    }
+  ],
+  "endpoints": [
+    {
+      "url": "https://jsonplaceholder.typicode.com/",
+      "endpoint": "/",
+      "status": 200,
+      "size": 8473,
+      "content_type": "text/html; charset=UTF-8",
+      "server": "cloudflare",
+      "is_json": false,
+      "response": "\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta\n      name=\"viewport\"\n      content=\"width=device-width, initial-scale=1, shrink-to-fit=no\"\n    />\n    <link rel=\"stylesheet\" href=\"/style.css\" />\n    <link\n      rel=\"stylesheet\"\n      href=\"https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-lucario.min.css\"\n    />\n    <title>JSONPlaceholder - Free Fake REST API</title>\n    <!-- Global site tag (gtag.js) - Google Analytics -->\n    <script\n      async\n"
+    }
+  ]
+}

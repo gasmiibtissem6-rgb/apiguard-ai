@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>APIGuard AI — Rapport https://jsonplaceholder.typicode.com</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; }
+  .header { background: linear-gradient(135deg, #161b22, #21262d); border: 1px solid #30363d; border-radius: 12px; padding: 30px; margin-bottom: 20px; }
+  h1 { color: #58a6ff; margin: 0 0 8px 0; }
+  .score { font-size: 48px; font-weight: bold; color: #ff8800; }
+  .badge { background: #ff8800; color: #000; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #21262d; padding: 10px; text-align: left; color: #8b949e; }
+  td { padding: 10px; border-bottom: 1px solid #21262d; font-size: 13px; }
+  code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #79c0ff; }
+  .chain { background: #0d1117; border-left: 3px solid #58a6ff; padding: 12px; margin: 8px 0; border-radius: 4px; }
+  h2 { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+  h4 { margin: 0 0 8px 0; color: #e3b341; }
+  ul, ol { padding-left: 20px; }
+  li { margin: 6px 0; }
+  .summary { background: #1c2128; border: 1px solid #388bfd; border-radius: 8px; padding: 16px; color: #e6edf3; }
+  .meta { color: #8b949e; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🛡️ APIGuard AI — Rapport de Sécurité</h1>
+  <p class="meta">Cible: <strong>https://jsonplaceholder.typicode.com</strong> | Date: 2026-06-04 00:26:34</p>
+  <div>Score de risque global: <span class="score">7.0</span><span style="font-size:20px;color:#8b949e">/10</span>
+  &nbsp;<span class="badge">HAUT</span></div>
+</div>
+
+<div class="card">
+  <h2>📋 Résumé Exécutif</h2>
+  <div class="summary">Voici un résumé exécutif en deux phrases pour le management :
+
+"La sécurité de l'API expertise https://jsonplaceholder.typicode.com obtient une note de 7,0/10, avec une vulnérabilité importante liée à la mise en exposition de données sensibles sur le chemin racine (/). Il est donc recommandé d'intensifier les efforts pour protéger ces informations confidentielles et améliorer la sécurité globale de l'API."
+
+(Note : Le score 7,0/10 indique que l'API présente des vulnérabilités importantes, mais également des points forts en termes de sécurité.)</div>
+  <br>
+  <table>
+    <tr><th>Endpoints analysés</th><th>Vulnérabilités</th><th>Critiques</th><th>Hautes</th><th>Moyennes</th></tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td style="color:#ff4444">0</td>
+      <td style="color:#ff8800">1</td>
+      <td style="color:#ffcc00">0</td>
+    </tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>🔗 Chaînes d'Attaque Prédites</h2>
+  <p style="color:#8b949e">Aucune chaîne détectée.</p>
+</div>
+
+<div class="card">
+  <h2>🐛 Vulnérabilités Détectées</h2>
+  <table>
+    <tr><th>Endpoint</th><th>Type</th><th>Sévérité</th><th>Description</th><th>PoC</th></tr>
+    
+            <tr>
+                <td><code>/</code></td>
+                <td style="color:#ff8800;font-weight:bold">SENSITIVE DATA EXPOSURE</td>
+                <td style="color:#ff8800">HAUT</td>
+                <td>Données sensibles exposées dans la réponse: ['ssn']</td>
+                <td><code>curl https://jsonplaceholder.typicode.com/</code></td>
+            </tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>✅ Remédiations Prioritaires</h2>
+  <ul><li>✅ Masquer les champs sensibles dans les réponses API</li></ul>
+</div>
+
+<div class="card">
+  <h2>🔍 Endpoints Découverts</h2>
+  <table>
+    <tr><th>URL</th><th>Status</th><th>Type</th></tr>
+    <tr><td><code>https://jsonplaceholder.typicode.com/</code></td><td>200</td><td>text/html; charset=UTF-8</td></tr>
+  </table>
+</div>
+
+<p class="meta" style="text-align:center;margin-top:30px">Généré par APIGuard AI | 2026-06-04 00:26:34</p>
+</body>
+</html>

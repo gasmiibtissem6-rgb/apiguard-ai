@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>APIGuard AI — Rapport http://localhost:8888</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; }
+  .header { background: linear-gradient(135deg, #161b22, #21262d); border: 1px solid #30363d; border-radius: 12px; padding: 30px; margin-bottom: 20px; }
+  h1 { color: #58a6ff; margin: 0 0 8px 0; }
+  .score { font-size: 48px; font-weight: bold; color: #ffcc00; }
+  .badge { background: #ffcc00; color: #000; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #21262d; padding: 10px; text-align: left; color: #8b949e; }
+  td { padding: 10px; border-bottom: 1px solid #21262d; font-size: 13px; }
+  code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #79c0ff; }
+  .chain { background: #0d1117; border-left: 3px solid #58a6ff; padding: 12px; margin: 8px 0; border-radius: 4px; }
+  h2 { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+  h4 { margin: 0 0 8px 0; color: #e3b341; }
+  ul, ol { padding-left: 20px; }
+  li { margin: 6px 0; }
+  .summary { background: #1c2128; border: 1px solid #388bfd; border-radius: 8px; padding: 16px; color: #e6edf3; }
+  .meta { color: #8b949e; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🛡️ APIGuard AI — Rapport de Sécurité</h1>
+  <p class="meta">Cible: <strong>http://localhost:8888</strong> | Date: 2026-06-04 01:25:15</p>
+  <div>Score de risque global: <span class="score">4.0</span><span style="font-size:20px;color:#8b949e">/10</span>
+  &nbsp;<span class="badge">MOYEN</span></div>
+</div>
+
+<div class="card">
+  <h2>📋 Résumé Exécutif</h2>
+  <div class="summary">Voici un résumé exécutif en deux phrases pour le management :
+
+Notre évaluation de la sécurité de l'API Expert a révélé des vulnérabilités graves, notamment l'absence de limitation de taux d'accès pour cinq endpoints sensibles (login, auth, token, reset et login) sur l'hôte local http://localhost:8888. Il est donc recommandé d'apporter rapidement ces corrections pour protéger les données et les utilisateurs contre les attaques de type brute-force.</div>
+  <br>
+  <table>
+    <tr><th>Endpoints analysés</th><th>Vulnérabilités</th><th>Critiques</th><th>Hautes</th><th>Moyennes</th></tr>
+    <tr>
+      <td>86</td>
+      <td>5</td>
+      <td style="color:#ff4444">0</td>
+      <td style="color:#ff8800">0</td>
+      <td style="color:#ffcc00">5</td>
+    </tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>🔗 Chaînes d'Attaque Prédites</h2>
+  <p style="color:#8b949e">Aucune chaîne détectée.</p>
+</div>
+
+<div class="card">
+  <h2>🐛 Vulnérabilités Détectées</h2>
+  <table>
+    <tr><th>Endpoint</th><th>Type</th><th>Sévérité</th><th>Description</th><th>PoC</th></tr>
+    
+            <tr>
+                <td><code>/api/login</code></td>
+                <td style="color:#ffcc00;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffcc00">MOYEN</td>
+                <td>Aucune limitation du nombre de requêtes — brute force possible</td>
+                <td><code>for i in $(seq 1 100); do curl -X POST http://localhost:8888/api/login -d '{"password":"test$i"}'; done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/auth</code></td>
+                <td style="color:#ffcc00;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffcc00">MOYEN</td>
+                <td>Aucune limitation du nombre de requêtes — brute force possible</td>
+                <td><code>for i in $(seq 1 100); do curl -X POST http://localhost:8888/api/auth -d '{"password":"test$i"}'; done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/token</code></td>
+                <td style="color:#ffcc00;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffcc00">MOYEN</td>
+                <td>Aucune limitation du nombre de requêtes — brute force possible</td>
+                <td><code>for i in $(seq 1 100); do curl -X POST http://localhost:8888/api/token -d '{"password":"test$i"}'; done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/reset</code></td>
+                <td style="color:#ffcc00;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffcc00">MOYEN</td>
+                <td>Aucune limitation du nombre de requêtes — brute force possible</td>
+                <td><code>for i in $(seq 1 100); do curl -X POST http://localhost:8888/api/reset -d '{"password":"test$i"}'; done</code></td>
+            </tr>
+            <tr>
+                <td><code>/login</code></td>
+                <td style="color:#ffcc00;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffcc00">MOYEN</td>
+                <td>Aucune limitation du nombre de requêtes — brute force possible</td>
+                <td><code>for i in $(seq 1 100); do curl -X POST http://localhost:8888/login -d '{"password":"test$i"}'; done</code></td>
+            </tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>✅ Remédiations Prioritaires</h2>
+  <ul><li>✅ Ajouter rate limiting (ex: 5 req/min) sur endpoints sensibles</li></ul>
+</div>
+
+<div class="card">
+  <h2>🔍 Endpoints Découverts</h2>
+  <table>
+    <tr><th>URL</th><th>Status</th><th>Type</th></tr>
+    <tr><td><code>http://localhost:8888/users</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/posts</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/comments</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/albums</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/todos</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/photos</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/v1</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/v2</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/v3</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/users</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/user</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/admin</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/login</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/logout</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/register</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/auth</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/token</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/refresh</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/profile</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/me</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/account</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/accounts</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/password</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/reset</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/verify</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/search</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/upload</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/download</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/files</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/file</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/docs</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/swagger</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/openapi</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/graphql</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/health</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/status</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/config</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/settings</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/debug</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/test</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/backup</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/export</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/import</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/logs</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/metrics</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/stats</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/report</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/reports</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/invoice</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/payment</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/payments</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/orders</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/order</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/products</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/product</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/cart</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/checkout</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/customers</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/customer</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/employees</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/employee</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/roles</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/role</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/permissions</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/groups</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/api/group</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/swagger.json</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/swagger.yaml</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/openapi.json</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/openapi.yaml</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/.well-known</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/graphql</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/playground</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/v1/users</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/v1/posts</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/v1/admin</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/v2/users</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/v2/posts</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/health</code></td><td>200</td><td>application/octet-stream, text/plain</td></tr><tr><td><code>http://localhost:8888/status</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/admin</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/login</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/register</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/profile</code></td><td>404</td><td>text/html</td></tr><tr><td><code>http://localhost:8888/search</code></td><td>404</td><td>text/html</td></tr>
+  </table>
+</div>
+
+<p class="meta" style="text-align:center;margin-top:30px">Généré par APIGuard AI | 2026-06-04 01:25:15</p>
+</body>
+</html>

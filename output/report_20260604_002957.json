@@ -1,0 +1,105 @@
+{
+  "target": "https://jsonplaceholder.typicode.com",
+  "timestamp": "2026-06-04 00:29:57",
+  "analysis": {
+    "global_risk_score": 2.3,
+    "risk_level": "BAS",
+    "attack_chains": [
+      {
+        "name": "Prise de contrôle de compte",
+        "steps": [
+          "1. Mass assignment sur /users",
+          "2. Élévation du rôle vers admin",
+          "3. Accès total à l'application"
+        ],
+        "severity": "HAUT"
+      }
+    ],
+    "executive_summary": "Résumé exécutif :\n\nLe score de sécurité de l'API https://jsonplaceholder.typicode.com est insatisfaisant avec une note de 2,3/10. Deux vulnérabilités importantes ont été identifiées : la MASS ASSIGNMENT sur l'endpoint /users et l'exposition de données sensibles également sur l'endpoint /users.\n\nCes vulnérabilités peuvent entraîner des conséquences graves pour les utilisateurs, comme la perte de confidentialité ou la modification non autorisée de données. Il est donc essentiel de prendre des mesures rapides pour corriger ces problèmes et améliorer la sécurité globale de l'API.",
+    "prioritized_remediations": [
+      "Masquer les champs sensibles dans les réponses API",
+      "Utiliser des DTOs stricts, whitelister les champs acceptés"
+    ],
+    "attack_surface": 6
+  },
+  "vulnerabilities": [
+    {
+      "endpoint": "/users",
+      "type": "MASS ASSIGNMENT",
+      "severity": "HAUT",
+      "description": "Possibilité d'assigner des champs sensibles (role, admin)",
+      "evidence": "POST https://jsonplaceholder.typicode.com/users avec {'role': 'admin', 'is_admin': True} → 201",
+      "poc": "curl -X POST https://jsonplaceholder.typicode.com/users -d '{\"role\": \"admin\", \"is_admin\": true}'"
+    },
+    {
+      "endpoint": "/users",
+      "type": "SENSITIVE DATA EXPOSURE",
+      "severity": "HAUT",
+      "description": "Données sensibles exposées dans la réponse: ['ssn']",
+      "evidence": "Champs trouvés: ['ssn']",
+      "poc": "curl https://jsonplaceholder.typicode.com/users"
+    }
+  ],
+  "endpoints": [
+    {
+      "url": "https://jsonplaceholder.typicode.com/users",
+      "endpoint": "/users",
+      "status": 200,
+      "size": 5645,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "[\n  {\n    \"id\": 1,\n    \"name\": \"Leanne Graham\",\n    \"username\": \"Bret\",\n    \"email\": \"Sincere@april.biz\",\n    \"address\": {\n      \"street\": \"Kulas Light\",\n      \"suite\": \"Apt. 556\",\n      \"city\": \"Gwenborough\",\n      \"zipcode\": \"92998-3874\",\n      \"geo\": {\n        \"lat\": \"-37.3159\",\n        \"lng\": \"81.1496\"\n      }\n    },\n    \"phone\": \"1-770-736-8031 x56442\",\n    \"website\": \"hildegard.org\",\n    \"company\": {\n      \"name\": \"Romaguera-Crona\",\n      \"catchPhrase\": \"Multi-layered client-server neural-"
+    },
+    {
+      "url": "https://jsonplaceholder.typicode.com/posts",
+      "endpoint": "/posts",
+      "status": 200,
+      "size": 27520,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "[\n  {\n    \"userId\": 1,\n    \"id\": 1,\n    \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n    \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 2,\n    \"title\": \"qui est esse\",\n    \"body\": \"est rerum tempore vitae\\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\\nfugiat blanditiis voluptate p"
+    },
+    {
+      "url": "https://jsonplaceholder.typicode.com/comments",
+      "endpoint": "/comments",
+      "status": 200,
+      "size": 157745,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "[\n  {\n    \"postId\": 1,\n    \"id\": 1,\n    \"name\": \"id labore ex et quam laborum\",\n    \"email\": \"Eliseo@gardner.biz\",\n    \"body\": \"laudantium enim quasi est quidem magnam voluptate ipsam eos\\ntempora quo necessitatibus\\ndolor quam autem quasi\\nreiciendis et nam sapiente accusantium\"\n  },\n  {\n    \"postId\": 1,\n    \"id\": 2,\n    \"name\": \"quo vero reiciendis velit similique earum\",\n    \"email\": \"Jayne_Kuhic@sydney.com\",\n    \"body\": \"est natus enim nihil est dolore omnis voluptatem numquam\\net omnis occa"
+    },
+    {
+      "url": "https://jsonplaceholder.typicode.com/albums",
+      "endpoint": "/albums",
+      "status": 200,
+      "size": 9333,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "[\n  {\n    \"userId\": 1,\n    \"id\": 1,\n    \"title\": \"quidem molestiae enim\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 2,\n    \"title\": \"sunt qui excepturi placeat culpa\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 3,\n    \"title\": \"omnis laborum odio\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 4,\n    \"title\": \"non esse culpa molestiae omnis sed optio\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 5,\n    \"title\": \"eaque aut omnis a\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 6,\n    \"title\": \"natus impedit quibusdam illo est\"\n  },\n  {\n    "
+    },
+    {
+      "url": "https://jsonplaceholder.typicode.com/todos",
+      "endpoint": "/todos",
+      "status": 200,
+      "size": 24311,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "[\n  {\n    \"userId\": 1,\n    \"id\": 1,\n    \"title\": \"delectus aut autem\",\n    \"completed\": false\n  },\n  {\n    \"userId\": 1,\n    \"id\": 2,\n    \"title\": \"quis ut nam facilis et officia qui\",\n    \"completed\": false\n  },\n  {\n    \"userId\": 1,\n    \"id\": 3,\n    \"title\": \"fugiat veniam minus\",\n    \"completed\": false\n  },\n  {\n    \"userId\": 1,\n    \"id\": 4,\n    \"title\": \"et porro tempora\",\n    \"completed\": true\n  },\n  {\n    \"userId\": 1,\n    \"id\": 5,\n    \"title\": \"laboriosam mollitia et enim quasi adipisci quia "
+    },
+    {
+      "url": "https://jsonplaceholder.typicode.com/photos",
+      "endpoint": "/photos",
+      "status": 200,
+      "size": 1071472,
+      "content_type": "application/json; charset=utf-8",
+      "server": "cloudflare",
+      "is_json": true,
+      "response": "[\n  {\n    \"albumId\": 1,\n    \"id\": 1,\n    \"title\": \"accusamus beatae ad facilis cum similique qui sunt\",\n    \"url\": \"https://via.placeholder.com/600/92c952\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\"\n  },\n  {\n    \"albumId\": 1,\n    \"id\": 2,\n    \"title\": \"reprehenderit est deserunt velit ipsam\",\n    \"url\": \"https://via.placeholder.com/600/771796\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/771796\"\n  },\n  {\n    \"albumId\": 1,\n    \"id\": 3,\n    \"title\": \"officia porro iure "
+    }
+  ]
+}
