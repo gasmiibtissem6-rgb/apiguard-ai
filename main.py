@@ -10,6 +10,7 @@ from core.discovery import APIDiscovery
 from core.scanner import VulnerabilityScanner
 from core.reporter import Reporter
 from ai.analyzer import AIAnalyzer
+from ai.attack_chain import AttackChainPredictor
 
 try:
     from core.crapi_scanner import CRAPIScanner
@@ -20,19 +21,19 @@ except:
 console = Console()
 
 BANNER = """
-╔══════════════════════════════════════════╗
-║        🛡️  APIGuard AI v2.0              ║
-║   Professional API Security Scanner      ║
-║   OWASP API Top 10 + AI Analysis         ║
-╚══════════════════════════════════════════╝
+╔══════════════════════════════════════════════╗
+║        🛡️  APIGuard AI v3.0                  ║
+║   Professional API Security Scanner          ║
+║   OWASP API Top 10 + AI Attack Chain         ║
+╚══════════════════════════════════════════════╝
 """
 
 def main():
-    console.print(Panel(Text(BANNER, style="bold cyan"), border_style="blue"))
+    console.print(Panel(Text(BANNER, style="bold cyan"), border_style="red"))
 
     if len(sys.argv) < 2:
         console.print("[yellow]Usage: python3 main.py <URL> [token JWT][/yellow]")
-        console.print("[yellow]Exemple: python3 main.py https://api.example.com eyJhbGci...[/yellow]")
+        console.print("[yellow]Exemple: python3 main.py http://localhost:8888 eyJhbGci...[/yellow]")
         sys.exit(1)
 
     target = sys.argv[1]
@@ -43,7 +44,8 @@ def main():
 
     console.print(f"[bold green][*] Cible: {target}[/bold green]\n")
 
-    console.print(Panel("[bold]Étape 1/3 — Découverte des endpoints[/bold]", style="blue"))
+    # Étape 1 — Discovery
+    console.print(Panel("[bold]Étape 1/4 — Découverte des endpoints[/bold]", style="blue"))
     discovery = APIDiscovery(target)
     endpoints = discovery.run()
 
@@ -51,43 +53,63 @@ def main():
         console.print("[red][-] Aucun endpoint découvert.[/red]")
         sys.exit(1)
 
-    console.print(Panel("[bold]Étape 2/3 — Scan de vulnérabilités[/bold]", style="yellow"))
+    # Étape 2 — Scan vulnérabilités
+    console.print(Panel("[bold]Étape 2/4 — Scan OWASP API Top 10[/bold]", style="yellow"))
     scanner = VulnerabilityScanner(target, auth_token=token)
     vulnerabilities = scanner.run(endpoints)
 
-    # Scan spécialisé crAPI si token disponible
+    # Scan spécialisé crAPI
     if token and CRAPI_AVAILABLE:
         console.print(Panel("[bold]Scan spécialisé crAPI...[/bold]", style="cyan"))
         crapi = CRAPIScanner(target, token)
         extra_vulns = crapi.run()
         vulnerabilities.extend(extra_vulns)
 
-    console.print(Panel("[bold]Étape 3/3 — Analyse IA[/bold]", style="magenta"))
+    # Étape 3 — AI Analysis
+    console.print(Panel("[bold]Étape 3/4 — Analyse IA[/bold]", style="magenta"))
     analyzer = AIAnalyzer(target)
     analysis = analyzer.analyze(vulnerabilities, endpoints)
 
-    reporter = Reporter(target, vulnerabilities, analysis, endpoints)
+    # Étape 4 — Attack Chain Predictor
+    console.print(Panel("[bold]Étape 4/4 — 🧠 AI Attack Chain Predictor[/bold]", style="red"))
+    predictor = AttackChainPredictor()
+    attack_chains = predictor.predict(vulnerabilities, target)
+
+    # Afficher les chaînes
+    chains = attack_chains.get("chains", [])
+    if chains:
+        console.print(f"\n[red bold][!] {len(chains)} chaînes d'attaque prédites :[/red bold]")
+        for chain in chains:
+            color = "red" if chain.get("severity") == "CRITIQUE" else "yellow"
+            console.print(f"[{color}]  ⛓️  {chain['name']} — {chain['severity']} ({chain['probability']}% probabilité)[/{color}]")
+            for step in chain.get("steps", []):
+                console.print(f"[white]      Étape {step['step']}: {step['action']}[/white]")
+            console.print(f"[{color}]      Impact: {chain['final_impact']}[/{color}]\n")
+
+    # Rapport
+    reporter = Reporter(target, vulnerabilities, analysis, endpoints, attack_chains)
     html_path, json_path = reporter.run()
 
     score = analysis.get("global_risk_score", 0)
     risk = analysis.get("risk_level", "N/A")
     score_color = "red" if score >= 8 else "yellow" if score >= 5 else "green"
-
     critiques = sum(1 for v in vulnerabilities if v['severity'] == 'CRITIQUE')
     hautes = sum(1 for v in vulnerabilities if v['severity'] == 'HAUT')
 
     console.print(f"""
-╔══════════════════════════════════════╗
-║           SCAN TERMINÉ v2.0          ║
-╠══════════════════════════════════════╣
-║  Endpoints : {len(endpoints):<26}║
-║  Vulnérab. : {len(vulnerabilities):<26}║
-║  Critiques : [{score_color}]{critiques}[/{score_color}]{' '*(25-len(str(critiques)))}║
-║  Hautes    : {hautes:<26}║
-║  Score     : [{score_color}]{score}/10[/{score_color}]{' '*(25-len(str(score)))}║
-║  Risque    : [{score_color}]{risk}[/{score_color}]{' '*(26-len(risk))}║
-╚══════════════════════════════════════╝
+[red]╔══════════════════════════════════════╗
+║      SCAN TERMINÉ v3.0 — COMPLET     ║
+╠══════════════════════════════════════╣[/red]
+  Endpoints      : [cyan]{len(endpoints)}[/cyan]
+  Vulnérab.      : [cyan]{len(vulnerabilities)}[/cyan]
+  Critiques      : [red]{critiques}[/red]
+  Hautes         : [yellow]{hautes}[/yellow]
+  Chaînes IA     : [red]{len(chains)}[/red]
+  Score          : [{score_color}]{score}/10[/{score_color}]
+  Risque         : [{score_color}]{risk}[/{score_color}]
+[red]╚══════════════════════════════════════╝[/red]
     """)
+
     console.print(f"[green]📄 Rapport HTML : {html_path}[/green]")
     console.print(f"[green]📄 Rapport JSON : {json_path}[/green]")
 
