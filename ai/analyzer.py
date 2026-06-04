@@ -31,7 +31,8 @@ class AIAnalyzer:
         for v in vulnerabilities:
             score += severity_scores.get(v.get("severity", "BAS"), 1)
 
-        score = min(10, round(score / max(len(vulnerabilities), 1), 1))
+        critiques = sum(1 for v in vulnerabilities if v.get("severity") == "CRITIQUE")
+        score = min(10, round((score / max(len(vulnerabilities), 1)) + min(2.0, critiques * 0.4), 1))
 
         if score >= 8:
             risk_level = "CRITIQUE"

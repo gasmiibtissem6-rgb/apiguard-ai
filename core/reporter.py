@@ -112,7 +112,7 @@ class Reporter:
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>APIGuard AI v3.0 — {self.target}</title>
+<title>APIGuard AI v4.0 — {self.target}</title>
 <style>
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 body {{ font-family:'Segoe UI',sans-serif; background:#0d1117; color:#e6edf3; }}
@@ -165,7 +165,7 @@ code {{ background:#21262d; padding:2px 6px; border-radius:4px;
 </head>
 <body>
 <div class="header">
-    <h1>🛡️ APIGuard AI v3.0</h1>
+    <h1>🛡️ APIGuard AI v4.0</h1>
     <p>AI-Powered API Security Scanner — OWASP API Top 10 + Attack Chain Predictor</p>
     <div style="margin-top:15px">
         <span class="badge">🎯 {self.target}</span>
@@ -237,7 +237,7 @@ code {{ background:#21262d; padding:2px 6px; border-radius:4px;
 </div>
 
 <div class="footer">
-    <p>APIGuard AI v3.0 — Généré par IA (Ollama/llama3) ⚠️ Usage autorisé uniquement</p>
+    <p>APIGuard AI v4.0 — Généré par IA (Ollama/llama3) ⚠️ Usage autorisé uniquement</p>
 </div>
 </body>
 </html>"""

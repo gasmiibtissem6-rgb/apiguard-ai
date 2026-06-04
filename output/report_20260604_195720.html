@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>APIGuard AI v3.0 — http://localhost:8888</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',sans-serif; background:#0d1117; color:#e6edf3; }
+.header { background:linear-gradient(135deg,#161b22,#0d1117);
+           padding:40px; border-bottom:3px solid #ff4757; }
+.header h1 { font-size:2.2em; color:#ff4757; letter-spacing:2px; }
+.header p { color:#8b949e; margin-top:8px; }
+.badge { background:#21262d; padding:6px 14px; border-radius:20px;
+          font-size:0.85em; margin:4px; display:inline-block; }
+.container { max-width:1400px; margin:0 auto; padding:30px; }
+.score-box { background:#161b22; border:2px solid #2ed573;
+              border-radius:12px; padding:30px; text-align:center; margin:20px 0; }
+.score-num { font-size:4em; font-weight:bold; color:#2ed573; }
+.score-label { font-size:1.2em; color:#2ed573; letter-spacing:4px; }
+.stats { display:grid; grid-template-columns:repeat(5,1fr); gap:15px; margin:20px 0; }
+.stat { background:#161b22; border-radius:10px; padding:20px; text-align:center;
+         border-top:3px solid #58a6ff; }
+.stat-num { font-size:2.2em; font-weight:bold; color:#58a6ff; }
+.stat-label { color:#8b949e; font-size:0.85em; margin-top:5px; }
+.section { background:#161b22; border-radius:10px; padding:25px; margin:20px 0; }
+.section h2 { color:#58a6ff; margin-bottom:15px; font-size:1.2em;
+               border-bottom:1px solid #21262d; padding-bottom:10px; }
+table { width:100%; border-collapse:collapse; }
+th { background:#21262d; padding:12px; text-align:left; color:#8b949e; font-size:0.85em; }
+td { padding:10px 12px; border-bottom:1px solid #21262d; font-size:0.88em; }
+code { background:#21262d; padding:2px 6px; border-radius:4px;
+        font-family:monospace; font-size:0.82em; color:#79c0ff; }
+.chain-card { background:#21262d; border-radius:8px; padding:20px; margin:15px 0; }
+.chain-header { display:flex; align-items:center; gap:15px; margin-bottom:15px; }
+.chain-name { font-size:1.1em; font-weight:bold; color:#e6edf3; }
+.chain-badge { padding:4px 12px; border-radius:20px; font-size:0.8em;
+                font-weight:bold; color:white; }
+.chain-prob { color:#8b949e; font-size:0.85em; }
+.step { display:flex; gap:10px; align-items:flex-start; padding:8px 0;
+         border-bottom:1px solid #30363d; }
+.step-num { background:#58a6ff; color:#0d1117; padding:2px 8px; border-radius:10px;
+             font-size:0.78em; font-weight:bold; white-space:nowrap; }
+.step-action { color:#e6edf3; font-weight:bold; min-width:200px; }
+.step-vuln { color:#f0883e; font-size:0.85em; }
+.step-result { color:#3fb950; font-size:0.85em; }
+.chain-impact { margin-top:12px; color:#ff4757; padding:10px;
+                 background:rgba(255,71,87,0.1); border-radius:6px; }
+.chain-mitigations { margin-top:10px; color:#3fb950; }
+.chain-mitigations ul { margin-left:20px; }
+.exec-summary { background:rgba(88,166,255,0.1); border:1px solid #58a6ff;
+                 border-radius:8px; padding:20px; color:#cdd9e5; line-height:1.8; }
+.footer { text-align:center; padding:30px; color:#8b949e;
+           border-top:1px solid #21262d; margin-top:40px; }
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>🛡️ APIGuard AI v3.0</h1>
+    <p>AI-Powered API Security Scanner — OWASP API Top 10 + Attack Chain Predictor</p>
+    <div style="margin-top:15px">
+        <span class="badge">🎯 http://localhost:8888</span>
+        <span class="badge">📅 2026-06-04 19:57</span>
+        <span class="badge">🤖 Ollama/llama3</span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="score-box">
+        <div class="score-num">4.9/10</div>
+        <div class="score-label">SCORE DE RISQUE GLOBAL — MOYEN</div>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-num" style="color:#58a6ff">269</div>
+            <div class="stat-label">🔍 Endpoints</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num" style="color:#ff4757">2</div>
+            <div class="stat-label">🔴 Critiques</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num" style="color:#ff6b81">2</div>
+            <div class="stat-label">🟠 Hautes</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num" style="color:#ffa502">13</div>
+            <div class="stat-label">🟡 Moyennes</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num" style="color:#ff4757">2</div>
+            <div class="stat-label">⛓️ Chaînes IA</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📋 Résumé Exécutif</h2>
+        <div class="exec-summary">Voici un résumé exécutif en deux phrases :
+
+« L'API ciblée (http://localhost:8888) présente des vulnérabilités liées à l'absence de limitation de taux d'accès sur plusieurs endpoints sensibles, notamment /api/auth, /api/auth/guest, /api/auth/login, /api/auth/logout et /api/token. Il est donc recommandé d'instaurer une mise en place de rate limiting pour éviter les attaques par déni de service (DoS) ou les essais de force brute. »</div>
+    </div>
+
+    <div class="section">
+        <h2>🧠 AI Attack Chain Predictor</h2>
+        <p style="color:#8b949e;margin-bottom:15px">
+            L'IA a analysé les vulnérabilités et prédit les chaînes d'exploitation possibles :
+        </p>
+        
+            <div class="chain-card" style="border-left:4px solid #ffa502">
+                <div class="chain-header">
+                    <span class="chain-name">⛓️ BOLA/IDOR et SENSITIVE DATA EXPOSURE</span>
+                    <span class="chain-badge" style="background:#ffa502">CRITIQUE|HAUT</span>
+                    <span class="chain-prob">95% probabilité</span>
+                </div>
+                <div class="chain-steps">
+                <div class="step">
+                    <span class="step-num">Étape 1</span>
+                    <span class="step-action">Scan du réseau pour détecter les vulnérabilités</span>
+                    <span class="step-vuln">via </span>
+                    <span class="step-result">→ Vulnérabilité détectée : /identity/api/v2/vehicle/{uuid}/location</span>
+                </div>
+                <div class="step">
+                    <span class="step-num">Étape 2</span>
+                    <span class="step-action">Extraction des coordonnées GPS</span>
+                    <span class="step-vuln">via </span>
+                    <span class="step-result">→ Coordonnées GPS obtenues pour le véhicule robotique</span>
+                </div>
+                <div class="step">
+                    <span class="step-num">Étape 3</span>
+                    <span class="step-action">Recherche de l'email du propriétaire du véhicule</span>
+                    <span class="step-vuln">via </span>
+                    <span class="step-result">→ Email du propriétaire obtenu à partir des posts publics</span>
+                </div></div>
+                <div class="chain-impact">
+                    <strong>Impact final:</strong> Contrôle d'un véhicule robotique et accès aux coordonnées GPS
+                </div>
+                <div class="chain-mitigations">
+                    <strong>Mitigations:</strong><ul><li>Mettre en place un système de rate limiting, Verifier les autorisations pour l'accès aux coordonnées GPS</li></ul>
+                </div>
+            </div>
+            <div class="chain-card" style="border-left:4px solid #ffa502">
+                <div class="chain-header">
+                    <span class="chain-name">⛓️ COUPON ABUSE et RACE CONDITION</span>
+                    <span class="chain-badge" style="background:#ffa502">HAUT|CRITIQUE</span>
+                    <span class="chain-prob">80% probabilité</span>
+                </div>
+                <div class="chain-steps">
+                <div class="step">
+                    <span class="step-num">Étape 1</span>
+                    <span class="step-action">Détecter les vulnérabilités dans le système de récompense</span>
+                    <span class="step-vuln">via </span>
+                    <span class="step-result">→ Vulnérabilité détectée : /community/api/v2/coupon/validate-coupon</span>
+                </div>
+                <div class="step">
+                    <span class="step-num">Étape 2</span>
+                    <span class="step-action">Utiliser le coupon multiple fois sans restriction</span>
+                    <span class="step-vuln">via </span>
+                    <span class="step-result">→ Coupon utilisé multiple fois sans restriction</span>
+                </div>
+                <div class="step">
+                    <span class="step-num">Étape 3</span>
+                    <span class="step-action">Exploiter la race condition pour obtenir des informations sensibles</span>
+                    <span class="step-vuln">via </span>
+                    <span class="step-result">→ Informations sensibles obtenues à travers la race condition</span>
+                </div></div>
+                <div class="chain-impact">
+                    <strong>Impact final:</strong> Prise de contrôle du système de récompense et accès aux informations sensibles
+                </div>
+                <div class="chain-mitigations">
+                    <strong>Mitigations:</strong><ul><li>Mettre en place un système de validation robuste pour les coupons, Établir des limitations pour l'utilisation des coupons</li></ul>
+                </div>
+            </div>
+    </div>
+
+    <div class="section">
+        <h2>🐛 Vulnérabilités Détectées (17)</h2>
+        <table>
+            <tr>
+                <th>Endpoint</th><th>Type</th><th>Sévérité</th>
+                <th>Description</th><th>PoC</th>
+            </tr>
+            
+            <tr>
+                <td><code>/api/auth</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/auth -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/auth/guest</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/auth/guest -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/auth/login</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/auth/login -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/auth/logout</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/auth/logout -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/token</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/token -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/users/login</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/users/login -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/v1/account/oauth/token</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/v1/account/oauth/token -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/v1/account/users/password</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/v1/account/users/password -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/v1/auth</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/v1/auth -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/v1/common/users/password</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/v1/common/users/password -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/api/v2/auth</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes en 0.0s sans blocage — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 1000); do curl -s -X POST http://localhost:8888/api/v2/auth -d '{"password":"test$i"}' & done</code></td>
+            </tr>
+            <tr>
+                <td><code>/identity/api/v2/vehicle/{uuid}/location</code></td>
+                <td style="color:#ff4757;font-weight:bold">BOLA/IDOR</td>
+                <td style="color:#ff4757;font-weight:bold">CRITIQUE</td>
+                <td>BOLA CONFIRMÉ: GPS accessible sans autorisation. Victime: robot001@example.com | Coordonnées: lat=37.746880, lng=-84.301460</td>
+                <td><code style="font-size:0.75em"># Étape 1 — Récupérer vehicleId depuis posts publics:
+curl -H "Authorization: Bearer $TOKEN" http://localhost:8888/community/api/v2/community/posts/recent
+
+# Étape 2 — Accéder GPS victime avec notre t</code></td>
+            </tr>
+            <tr>
+                <td><code>/community/api/v2/community/posts/recent</code></td>
+                <td style="color:#ff6b81;font-weight:bold">SENSITIVE DATA EXPOSURE</td>
+                <td style="color:#ff6b81;font-weight:bold">HAUT</td>
+                <td>vehicleId + email exposés dans posts publics pour 3 utilisateurs — permet BOLA chain</td>
+                <td><code style="font-size:0.75em">curl -H "Authorization: Bearer $TOKEN" http://localhost:8888/community/api/v2/community/posts/recent | python3 -c "import sys,json; [print(p['author']['vehicleid'],p['author']['email']) for p in json.</code></td>
+            </tr>
+            <tr>
+                <td><code>/identity/api/auth/login</code></td>
+                <td style="color:#ffa502;font-weight:bold">NO RATE LIMITING</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>20 requêtes sans blocage 429 — brute force possible</td>
+                <td><code style="font-size:0.75em">for i in $(seq 1 500); do curl -X POST http://localhost:8888/identity/api/auth/login -d '{"email":"admin@test.com","password":"p$i"}'; done</code></td>
+            </tr>
+            <tr>
+                <td><code>/identity/api/v2/user/dashboard</code></td>
+                <td style="color:#ffa502;font-weight:bold">SENSITIVE DATA EXPOSURE</td>
+                <td style="color:#ffa502;font-weight:bold">MOYEN</td>
+                <td>Trop de champs exposés dans réponse API: ['name', 'email', 'number', 'available_credit', 'role', 'video_id']</td>
+                <td><code style="font-size:0.75em">curl -H "Authorization: Bearer $TOKEN" http://localhost:8888/identity/api/v2/user/dashboard</code></td>
+            </tr>
+            <tr>
+                <td><code>/community/api/v2/coupon/validate-coupon</code></td>
+                <td style="color:#ff6b81;font-weight:bold">COUPON ABUSE</td>
+                <td style="color:#ff6b81;font-weight:bold">HAUT</td>
+                <td>Coupon "TRAC075" utilisable 3 fois sans restriction</td>
+                <td><code style="font-size:0.75em">for i in 1 2 3; do curl -X POST http://localhost:8888/community/api/v2/coupon/validate-coupon -H 'Authorization: Bearer $TOKEN' -d '{"coupon_code":"TRAC075"}'; done</code></td>
+            </tr>
+            <tr>
+                <td><code>/community/api/v2/coupon/validate-coupon</code></td>
+                <td style="color:#ff4757;font-weight:bold">RACE CONDITION</td>
+                <td style="color:#ff4757;font-weight:bold">CRITIQUE</td>
+                <td>Race condition détectée: 10/10 requêtes simultanées acceptées</td>
+                <td><code style="font-size:0.75em"># Lancer 10 requêtes simultanées:
+for i in $(seq 1 10); do curl -s -X POST http://localhost:8888/community/api/v2/coupon/validate-coupon -H 'Authorization: Bearer $TOKEN' -d '{"coupon_code":"TRAC075"}</code></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>🔍 Endpoints Découverts (269)</h2>
+        <table>
+            <tr><th>URL</th><th>Status</th><th>Type</th></tr>
+            
+            <tr>
+                <td><a href="http://localhost:8888/api/ads" style="color:#74b9ff">http://localhost:8888/api/ads</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/announcements" style="color:#74b9ff">http://localhost:8888/api/announcements</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/api" style="color:#74b9ff">http://localhost:8888/api/api</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/api-docs" style="color:#74b9ff">http://localhost:8888/api/api-docs</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/apidocs" style="color:#74b9ff">http://localhost:8888/api/apidocs</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/apidocs/swagger.json" style="color:#74b9ff">http://localhost:8888/api/apidocs/swagger.json</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/application.wadl" style="color:#74b9ff">http://localhost:8888/api/application.wadl</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/auth" style="color:#74b9ff">http://localhost:8888/api/auth</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/auth/guest" style="color:#74b9ff">http://localhost:8888/api/auth/guest</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/auth/login" style="color:#74b9ff">http://localhost:8888/api/auth/login</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/auth/logout" style="color:#74b9ff">http://localhost:8888/api/auth/logout</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/batch" style="color:#74b9ff">http://localhost:8888/api/batch</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/branches" style="color:#74b9ff">http://localhost:8888/api/branches</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/brands" style="color:#74b9ff">http://localhost:8888/api/brands</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/call" style="color:#74b9ff">http://localhost:8888/api/call</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/campaign" style="color:#74b9ff">http://localhost:8888/api/campaign</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/cart" style="color:#74b9ff">http://localhost:8888/api/cart</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/cart/create" style="color:#74b9ff">http://localhost:8888/api/cart/create</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/chat/categories" style="color:#74b9ff">http://localhost:8888/api/chat/categories</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/check" style="color:#74b9ff">http://localhost:8888/api/check</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/checkin" style="color:#74b9ff">http://localhost:8888/api/checkin</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/clients" style="color:#74b9ff">http://localhost:8888/api/clients</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/config" style="color:#74b9ff">http://localhost:8888/api/config</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/config.json" style="color:#74b9ff">http://localhost:8888/api/config.json</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/contents" style="color:#74b9ff">http://localhost:8888/api/contents</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/csp_report" style="color:#74b9ff">http://localhost:8888/api/csp_report</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/custom" style="color:#74b9ff">http://localhost:8888/api/custom</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/customer" style="color:#74b9ff">http://localhost:8888/api/customer</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api-doc" style="color:#74b9ff">http://localhost:8888/api-doc</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api-docs" style="color:#74b9ff">http://localhost:8888/api-docs</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/docs" style="color:#74b9ff">http://localhost:8888/api/docs</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/docs/" style="color:#74b9ff">http://localhost:8888/api/docs/</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api-docs/v1/openapi.json" style="color:#74b9ff">http://localhost:8888/api-docs/v1/openapi.json</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/domains" style="color:#74b9ff">http://localhost:8888/api/domains</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/events" style="color:#74b9ff">http://localhost:8888/api/events</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/geo" style="color:#74b9ff">http://localhost:8888/api/geo</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/get" style="color:#74b9ff">http://localhost:8888/api/get</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/graphql" style="color:#74b9ff">http://localhost:8888/api/graphql</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/identity" style="color:#74b9ff">http://localhost:8888/api/identity</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/identity/envelope" style="color:#74b9ff">http://localhost:8888/api/identity/envelope</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/index.html" style="color:#74b9ff">http://localhost:8888/api/index.html</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/info.json" style="color:#74b9ff">http://localhost:8888/api/info.json</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/init" style="color:#74b9ff">http://localhost:8888/api/init</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/insights" style="color:#74b9ff">http://localhost:8888/api/insights</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/ip/info" style="color:#74b9ff">http://localhost:8888/api/ip/info</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/jobs" style="color:#74b9ff">http://localhost:8888/api/jobs</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/jolokia/read" style="color:#74b9ff">http://localhost:8888/api/jolokia/read</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/jsonpcallback" style="color:#74b9ff">http://localhost:8888/api/jsonpcallback</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/jsonws" style="color:#74b9ff">http://localhost:8888/api/jsonws</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+            <tr>
+                <td><a href="http://localhost:8888/api/jsonws/invoke" style="color:#74b9ff">http://localhost:8888/api/jsonws/invoke</a></td>
+                <td style="color:#747d8c">404</td>
+                <td>text/html</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="footer">
+    <p>APIGuard AI v3.0 — Généré par IA (Ollama/llama3) ⚠️ Usage autorisé uniquement</p>
+</div>
+</body>
+</html>

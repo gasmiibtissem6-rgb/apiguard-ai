@@ -311,7 +311,7 @@ class VulnerabilityScanner:
                         return
 
     # API8 — Security Misconfiguration
-    def _disabled_test_security_misconfig(self, endpoint):
+    def test_security_misconfig(self, endpoint):
         console.print(f"[cyan][*] Test Security Misconfig: {endpoint}[/cyan]")
         url = f"{self.target}{endpoint}"
 
@@ -356,6 +356,9 @@ class VulnerabilityScanner:
             )
 
     def scan_endpoint(self, endpoint_data):
+        # Ne scanner que les endpoints actifs ou Swagger
+        if endpoint_data.get("status") == 404 and not endpoint_data.get("from_swagger"):
+            return
         endpoint = endpoint_data.get('endpoint', '')
         self.test_bola(endpoint)
         self.test_auth_bypass(endpoint)
@@ -364,6 +367,7 @@ class VulnerabilityScanner:
         self.test_rate_limiting(endpoint)
         self.test_sensitive_data(endpoint)
         self.test_ssrf(endpoint)
+        self.test_security_misconfig(endpoint)
         self.test_bola_crapi(endpoint)
         pass  # desactivé temporairement
 
